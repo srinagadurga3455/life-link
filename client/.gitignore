@@ -1,0 +1,58 @@
+# Frontend .gitignore
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+build/
+*.jks
+*.p8
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Logs
+logs/
+*.log
+
+# Testing
+coverage/
+__tests__/
+
+# Misc
+.cache/
+tmp/
+temp/
+
+# React Native
+android/build/
+ios/Pods/
+ios/Podfile.lock
+
+# Generated files
+.env
+.env.production
+*.apk
+*.ipa
+*.zip
