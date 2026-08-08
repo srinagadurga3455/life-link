@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "SafeGuard",
+    "slug": "safeguard-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "platforms": ["ios", "android", "web"],
+    "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCN0_jy9NJquWQOFRhZhbHQV3W9lPJC170"
+        }
+      }
+    },
+    "ios": {
+      "config": {
+        "googleMapsApiKey": "AIzaSyCN0_jy9NJquWQOFRhZhbHQV3W9lPJC170"
+      }
+    }
+  }
+}
