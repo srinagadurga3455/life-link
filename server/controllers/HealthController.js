@@ -224,7 +224,7 @@ RULES:
         role: "user",
         content: [
           { type: "input_text", text: "Analyze this medicine image and return the JSON." },
-          { type: "input_image", image_url: { url: dataUri } },
+          { type: "input_image", image_url: dataUri, detail: "auto" },
         ],
       },
     ];
