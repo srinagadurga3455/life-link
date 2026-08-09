@@ -2,8 +2,8 @@ import crypto from "crypto";
 import { getChatReply } from "../agents/agent.js";
 
 // ── In-Memory Stores ─────────────────────────────────────────────────────────
-const bookings     = new Map();   // bookingId → booking object
-const reminders    = new Map();   // userId   → [ reminder, … ]
+const bookings = new Map();   // bookingId → booking object
+const reminders = new Map();   // userId   → [ reminder, … ]
 
 // ── Helper: timestamp tag for console logs ───────────────────────────────────
 const ts = () => new Date().toISOString();
@@ -63,10 +63,10 @@ RULES:
 
     // Parse severity & recommendDoctor from the tail of the reply
     const severityMatch = raw.match(/SEVERITY:(low|medium|high)/i);
-    const doctorMatch   = raw.match(/RECOMMEND_DOCTOR:(true|false)/i);
+    const doctorMatch = raw.match(/RECOMMEND_DOCTOR:(true|false)/i);
 
-    const severity        = severityMatch ? severityMatch[1].toLowerCase() : "medium";
-    const recommendDoctor = doctorMatch   ? doctorMatch[1] === "true"      : severity !== "low";
+    const severity = severityMatch ? severityMatch[1].toLowerCase() : "medium";
+    const recommendDoctor = doctorMatch ? doctorMatch[1] === "true" : severity !== "low";
 
     // Strip the tags from the visible reply
     const reply = raw
@@ -88,14 +88,14 @@ RULES:
 
 // TODO: Replace mock data with a real provider API (Google Places / Practo / external DB)
 const MOCK_DOCTORS = [
-  { id: "doc-001", name: "Dr. Priya Sharma",    specialization: "General Physician", hospital: "Apollo Clinic",       rating: 4.5, distance: "1.2 km", availableSlots: ["09:00", "11:00", "14:00", "16:00"] },
-  { id: "doc-002", name: "Dr. Ramesh Reddy",    specialization: "Cardiologist",      hospital: "Care Hospitals",      rating: 4.8, distance: "2.5 km", availableSlots: ["10:00", "13:00", "15:30"] },
-  { id: "doc-003", name: "Dr. Lakshmi Menon",   specialization: "Dermatologist",     hospital: "KIMS Hospital",       rating: 4.3, distance: "3.1 km", availableSlots: ["08:30", "12:00", "17:00"] },
-  { id: "doc-004", name: "Dr. Suresh Babu",     specialization: "Orthopedic",        hospital: "Yashoda Hospital",    rating: 4.6, distance: "4.0 km", availableSlots: ["09:30", "11:30", "14:30"] },
-  { id: "doc-005", name: "Dr. Anjali Rao",      specialization: "Pediatrician",      hospital: "Rainbow Hospital",    rating: 4.7, distance: "1.8 km", availableSlots: ["10:30", "13:30", "16:30"] },
-  { id: "doc-006", name: "Dr. Venkat Krishnan", specialization: "ENT Specialist",    hospital: "Global Hospital",     rating: 4.4, distance: "5.2 km", availableSlots: ["08:00", "12:30", "15:00"] },
-  { id: "doc-007", name: "Dr. Kavitha Nair",    specialization: "Gynecologist",      hospital: "Fernandez Hospital",  rating: 4.9, distance: "2.0 km", availableSlots: ["09:00", "14:00", "17:30"] },
-  { id: "doc-008", name: "Dr. Arjun Patel",     specialization: "Neurologist",       hospital: "NIMS Hospital",       rating: 4.5, distance: "6.3 km", availableSlots: ["10:00", "15:00"] },
+  { id: "doc-001", name: "Dr. Priya Sharma", specialization: "General Physician", hospital: "Apollo Clinic", rating: 4.5, distance: "1.2 km", availableSlots: ["09:00", "11:00", "14:00", "16:00"] },
+  { id: "doc-002", name: "Dr. Ramesh Reddy", specialization: "Cardiologist", hospital: "Care Hospitals", rating: 4.8, distance: "2.5 km", availableSlots: ["10:00", "13:00", "15:30"] },
+  { id: "doc-003", name: "Dr. Lakshmi Menon", specialization: "Dermatologist", hospital: "KIMS Hospital", rating: 4.3, distance: "3.1 km", availableSlots: ["08:30", "12:00", "17:00"] },
+  { id: "doc-004", name: "Dr. Suresh Babu", specialization: "Orthopedic", hospital: "Yashoda Hospital", rating: 4.6, distance: "4.0 km", availableSlots: ["09:30", "11:30", "14:30"] },
+  { id: "doc-005", name: "Dr. Anjali Rao", specialization: "Pediatrician", hospital: "Rainbow Hospital", rating: 4.7, distance: "1.8 km", availableSlots: ["10:30", "13:30", "16:30"] },
+  { id: "doc-006", name: "Dr. Venkat Krishnan", specialization: "ENT Specialist", hospital: "Global Hospital", rating: 4.4, distance: "5.2 km", availableSlots: ["08:00", "12:30", "15:00"] },
+  { id: "doc-007", name: "Dr. Kavitha Nair", specialization: "Gynecologist", hospital: "Fernandez Hospital", rating: 4.9, distance: "2.0 km", availableSlots: ["09:00", "14:00", "17:30"] },
+  { id: "doc-008", name: "Dr. Arjun Patel", specialization: "Neurologist", hospital: "NIMS Hospital", rating: 4.5, distance: "6.3 km", availableSlots: ["10:00", "15:00"] },
 ];
 
 export const findDoctors = async (req, res) => {
@@ -180,7 +180,7 @@ export const bookAppointment = async (req, res) => {
 };
 
 // ═════════════════════════════════════════════════════════════════════════════
-// FEATURE 3 — Medicine Scanner (GPT-4o-mini Vision)
+// FEATURE 3 — Medicine Scanner (gpt-4.1-mini Vision)
 // POST /api/health/scan-medicine
 // ═════════════════════════════════════════════════════════════════════════════
 export const scanMedicine = async (req, res) => {
@@ -223,8 +223,8 @@ RULES:
       {
         role: "user",
         content: [
-          { type: "text", text: "Analyze this medicine image and return the JSON." },
-          { type: "image_url", image_url: { url: dataUri } },
+          { type: "input_text", text: "Analyze this medicine image and return the JSON." },
+          { type: "input_image", image_url: { url: dataUri } },
         ],
       },
     ];
@@ -249,11 +249,11 @@ RULES:
     }
 
     return res.json({
-      name:        parsed.name        || "Unknown",
-      usage:       parsed.usage       || "",
-      dosage:      parsed.dosage      || "",
+      name: parsed.name || "Unknown",
+      usage: parsed.usage || "",
+      dosage: parsed.dosage || "",
       sideEffects: parsed.sideEffects || [],
-      warnings:    parsed.warnings    || [],
+      warnings: parsed.warnings || [],
       language,
     });
   } catch (error) {
@@ -357,7 +357,7 @@ export const deleteReminder = async (req, res) => {
  * the earliest time tomorrow if all today's slots have passed.
  */
 function computeNextDue(times) {
-  const now   = new Date();
+  const now = new Date();
   const today = now.toISOString().slice(0, 10); // YYYY-MM-DD
 
   const upcoming = times
@@ -379,7 +379,7 @@ function computeNextDue(times) {
 // ── Interval Checker (every 60 seconds) ──────────────────────────────────────
 // TODO: Connect to Twilio SMS / push notification service instead of console.log
 setInterval(() => {
-  const now     = new Date();
+  const now = new Date();
   const nowHHMM = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
 
   for (const [userId, list] of reminders) {
